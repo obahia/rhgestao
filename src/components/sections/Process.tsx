@@ -1,8 +1,13 @@
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { processSteps } from "@/lib/content";
 
 export function Process() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <section className="bg-paper-warm py-24 lg:py-32">
       <div className="container-page">
@@ -17,6 +22,14 @@ export function Process() {
             aria-hidden="true"
             className="pointer-events-none absolute left-0 right-0 top-[22px] hidden h-px bg-line-strong lg:block"
           />
+          <motion.div
+            aria-hidden="true"
+            initial={{ scaleX: reduceMotion ? 1 : 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+            className="pointer-events-none absolute left-0 right-0 top-[22px] hidden h-px origin-left bg-cyan-500 lg:block"
+          />
 
           {processSteps.map((step, index) => (
             <Reveal key={step.index} delay={index * 0.08} as="li" className="relative">
@@ -26,7 +39,14 @@ export function Process() {
                     {step.index}
                   </span>
                   {index < processSteps.length - 1 ? (
-                    <span className="mt-2 w-px flex-1 bg-line-strong" aria-hidden="true" />
+                    <motion.span
+                      initial={{ scaleY: reduceMotion ? 1 : 0 }}
+                      whileInView={{ scaleY: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                      className="mt-2 w-px flex-1 origin-top bg-cyan-500"
+                      aria-hidden="true"
+                    />
                   ) : null}
                 </div>
 

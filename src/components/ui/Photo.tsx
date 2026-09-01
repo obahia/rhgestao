@@ -25,14 +25,14 @@ export function Photo({
   priority,
 }: PhotoProps) {
   return (
-    <div className={`relative overflow-hidden bg-petrol-800 ${className ?? ""}`}>
+    <div className={`group relative overflow-hidden bg-petrol-800 ${className ?? ""}`}>
       <Image
         src={src}
         alt={alt}
         fill
         sizes={sizes}
         priority={priority}
-        className="object-cover object-center"
+        className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.03]"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-petrol-950/70 via-transparent to-transparent" />
       {label ? (

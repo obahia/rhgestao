@@ -21,6 +21,7 @@ export type Service = {
   title: string;
   summary: string;
   items: string[];
+  photo: string;
 };
 
 export const services: Service[] = [
@@ -29,6 +30,7 @@ export const services: Service[] = [
     title: "Medicina Ocupacional",
     summary:
       "Os exames e o acompanhamento clínico que garantem que cada colaborador está apto para o trabalho — e que sua empresa está com a documentação em dia.",
+    photo: stockPhotos.clinicalConsult,
     items: [
       "PCMSO",
       "ASO — admissional, periódico e demissional",
@@ -44,6 +46,7 @@ export const services: Service[] = [
     title: "Segurança do Trabalho",
     summary:
       "Identificação, avaliação e controle dos riscos da sua operação, com suporte técnico presente — não só um relatório entregue uma vez por ano.",
+    photo: stockPhotos.safetyVestsGroup,
     items: [
       "PGR — Programa de Gerenciamento de Riscos",
       "Inventário de riscos ocupacionais",
@@ -56,6 +59,7 @@ export const services: Service[] = [
     title: "eSocial / SST",
     summary:
       "Os eventos de Saúde e Segurança do Trabalho enviados no prazo certo, com a informação organizada para não gerar inconsistência com o eSocial.",
+    photo: stockPhotos.documentSigning,
     items: [
       "Gestão dos eventos S-2210, S-2220 e S-2240",
       "Organização das informações de SST",
@@ -68,6 +72,7 @@ export const services: Service[] = [
     title: "Gestão Ocupacional",
     summary:
       "A rotina que costuma sobrar para o RH — exames, documentos, renovações — organizada e acompanhada pela nossa equipe, do início ao fim.",
+    photo: stockPhotos.documentReview,
     items: [
       "Acompanhamento individual de colaboradores",
       "Controle de vencimentos e renovações",
@@ -131,22 +136,12 @@ export const differentiators = [
   {
     title: "Tudo com o mesmo parceiro",
     description:
-      "Medicina, segurança, eSocial e gestão. Sua empresa para de dividir contrato entre três fornecedores diferentes.",
-  },
-  {
-    title: "Documentação pronta para fiscalização",
-    description:
-      "PGR, PCMSO e ASOs organizados no sistema — não procurados de última hora na véspera de uma auditoria.",
+      "Medicina, segurança, eSocial e gestão — sem dividir contrato entre três fornecedores diferentes.",
   },
   {
     title: "Atendimento também à tarde",
     description:
-      "Pouco comum entre clínicas ocupacionais em Jacarepaguá. Sua empresa agenda sem travar a produção.",
-  },
-  {
-    title: "Acompanhamento que não para no admissional",
-    description:
-      "Seguimos com a empresa nos periódicos, nas mudanças de função e nas renovações — não só na contratação.",
+      "Pouco comum entre clínicas ocupacionais em Jacarepaguá. Agenda sem travar a produção.",
   },
   {
     title: "Estrutura local, não central de atendimento",
@@ -200,9 +195,8 @@ export const faqItems = [
 
 export const aboutGallery = [
   { photo: stockPhotos.teamDiscussion, caption: "Equipe RH+" },
-  { photo: stockPhotos.clinicalCare, caption: "Atendimento clínico" },
-  { photo: stockPhotos.safetyBriefing, caption: "Workshop de segurança" },
-  { photo: stockPhotos.safetyVestsGroup, caption: "Empresa parceira" },
+  { photo: stockPhotos.workspace, caption: "Rotina organizada" },
+  { photo: stockPhotos.deskHandshake, caption: "Atendimento próximo" },
 ] as const;
 
 export const testimonials = [
@@ -240,3 +234,5 @@ export const testimonials = [
       "Ótimo atendimento. São super rápidos e atenciosos conosco. Indico a todos — obrigado pela ótima atenção.",
   },
 ] as const;
+
+export type Testimonial = (typeof testimonials)[number];

@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { useRef } from "react";
 import { Button } from "@/components/ui/Button";
 import { Photo } from "@/components/ui/Photo";
 import { PlusMark } from "@/components/ui/PlusMark";
@@ -12,13 +13,35 @@ import { stockPhotos } from "@/lib/stock-photos";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
+function StatBlock({ className }: { className?: string }) {
+  return (
+    <div className={className}>
+      <span className="font-display text-[clamp(2.6rem,5vw,3.4rem)] font-medium leading-none text-petrol-900">
+        +{siteConfig.companiesServed}
+      </span>
+      <p className="mt-2 max-w-[14rem] text-[0.92rem] leading-snug text-ink-soft">
+        empresas já confiam sua gestão ocupacional à RH+.
+      </p>
+    </div>
+  );
+}
+
 export function Hero() {
   const reduceMotion = useReducedMotion();
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const yA = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? 0 : -34]);
+  const yB = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? 0 : -64]);
+  const yC = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? 0 : -16]);
 
   return (
     <section
+      ref={heroRef}
       id="inicio"
-      className="relative overflow-hidden bg-paper pt-[112px] pb-20 lg:flex lg:min-h-[88vh] lg:items-center lg:pb-16"
+      className="relative overflow-hidden bg-paper pt-[112px] pb-20 lg:flex lg:min-h-[92vh] lg:items-center lg:pb-16"
     >
       <div
         aria-hidden="true"
@@ -26,7 +49,7 @@ export function Hero() {
       />
 
       <div className="container-page relative grid grid-cols-1 gap-16 lg:grid-cols-12 lg:items-center lg:gap-8">
-        <div className="lg:col-span-6">
+        <div className="lg:col-span-5">
           <motion.div
             initial={{ opacity: 0, y: reduceMotion ? 0 : 14 }}
             animate={{ opacity: 1, y: 0 }}
@@ -82,47 +105,27 @@ export function Hero() {
           </motion.div>
         </div>
 
-        <div className="lg:col-span-6">
-          <div className="relative mx-auto max-w-[480px] lg:max-w-none">
-            <PlusMark
-              size={16}
-              className="absolute -left-2 -top-2 hidden text-petrol-700/30 lg:block"
-            />
-            <PlusMark
-              size={16}
-              className="absolute -bottom-2 -right-2 hidden text-petrol-700/30 lg:block"
-            />
+        {/* Desktop: staggered editorial photo stream */}
+        <div className="relative hidden lg:col-span-7 lg:col-start-6 lg:block">
+          <PlusMark size={16} className="absolute -left-3 -top-3 text-petrol-700/30" />
+          <PlusMark size={16} className="absolute -bottom-3 -right-3 text-petrol-700/30" />
 
-            <div className="grid grid-cols-2 grid-rows-[minmax(0,auto)] gap-3 lg:aspect-[1/0.98] lg:grid-cols-6 lg:grid-rows-6 lg:gap-4">
-              <RevealImage
-                trigger="mount"
-                delay={0.15}
-                className="col-span-2 aspect-[4/3] rounded-sm lg:col-start-3 lg:col-span-4 lg:row-start-1 lg:row-span-4 lg:aspect-auto"
-              >
+          <div className="grid grid-cols-3 gap-5">
+            <motion.div style={{ y: yA }} className="flex flex-col gap-5">
+              <RevealImage trigger="mount" delay={0.15} className="aspect-[3/4] rounded-sm">
                 <Photo
-                  src={stockPhotos.clinicalCare}
-                  alt="Profissional da RH+ em atendimento a colaborador"
-                  label="Atendimento RH+"
-                  labelPosition="top-left"
+                  src={stockPhotos.team}
+                  alt="Equipe RH+"
+                  label="Equipe RH+"
                   className="h-full w-full"
                   priority
                 />
               </RevealImage>
+            </motion.div>
 
-              <div className="col-span-1 row-start-2 flex flex-col justify-center gap-1 rounded-sm bg-petrol-900 px-4 py-5 text-white lg:col-start-1 lg:col-span-2 lg:row-start-1 lg:row-span-3 lg:px-5">
-                <span className="font-display text-[2.1rem] font-medium leading-none lg:text-[2.5rem]">
-                  +{siteConfig.companiesServed}
-                </span>
-                <span className="mt-2 text-[0.7rem] font-medium uppercase tracking-[0.1em] text-white/65">
-                  Empresas atendidas
-                </span>
-              </div>
-
-              <RevealImage
-                trigger="mount"
-                delay={0.3}
-                className="col-span-1 row-start-2 aspect-square rounded-sm lg:col-start-1 lg:col-span-3 lg:row-start-4 lg:row-span-3 lg:aspect-auto"
-              >
+            <motion.div style={{ y: yB }} className="mt-16 flex flex-col gap-5">
+              <StatBlock />
+              <RevealImage trigger="mount" delay={0.35} className="aspect-square rounded-sm">
                 <Photo
                   src={stockPhotos.safetyBriefing}
                   alt="Equipe de segurança do trabalho em briefing"
@@ -130,22 +133,45 @@ export function Hero() {
                   className="h-full w-full"
                 />
               </RevealImage>
+            </motion.div>
 
-              <div className="col-span-2 flex flex-col justify-center gap-2.5 rounded-sm border border-line-strong bg-white px-4 py-5 lg:col-start-4 lg:col-span-3 lg:row-start-5 lg:row-span-2 lg:px-5">
-                {["Medicina ocupacional", "Segurança do trabalho", "SST · eSocial"].map(
-                  (item) => (
-                    <span
-                      key={item}
-                      className="flex items-center gap-2 text-[0.8rem] font-medium text-petrol-900"
-                    >
-                      <PlusMark size={9} className="shrink-0 text-cyan-600" />
-                      {item}
-                    </span>
-                  )
-                )}
-              </div>
-            </div>
+            <motion.div style={{ y: yC }} className="mt-8 flex flex-col gap-5">
+              <RevealImage trigger="mount" delay={0.25} className="aspect-[4/5] rounded-sm">
+                <Photo
+                  src={stockPhotos.clinicalCare}
+                  alt="Profissional da RH+ em atendimento a colaborador"
+                  label="Atendimento RH+"
+                  className="h-full w-full"
+                />
+              </RevealImage>
+              <RevealImage trigger="mount" delay={0.45} className="aspect-square rounded-sm">
+                <Photo
+                  src={stockPhotos.stethoscopeExam}
+                  alt="Atendimento clínico ocupacional"
+                  label="Atendimento clínico"
+                  className="h-full w-full"
+                />
+              </RevealImage>
+            </motion.div>
           </div>
+        </div>
+
+        {/* Mobile / tablet: compact photo + integrated stat */}
+        <div className="lg:hidden">
+          <RevealImage
+            trigger="mount"
+            delay={0.15}
+            className="aspect-[4/3] rounded-sm"
+          >
+            <Photo
+              src={stockPhotos.clinicalCare}
+              alt="Profissional da RH+ em atendimento a colaborador"
+              label="Atendimento RH+"
+              className="h-full w-full"
+              priority
+            />
+          </RevealImage>
+          <StatBlock className="mt-8" />
         </div>
       </div>
     </section>

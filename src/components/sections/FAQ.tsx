@@ -3,19 +3,29 @@
 import * as Accordion from "@radix-ui/react-accordion";
 import { PlusMark } from "@/components/ui/PlusMark";
 import { Reveal } from "@/components/ui/Reveal";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { faqItems } from "@/lib/content";
 
 export function FAQ() {
   return (
     <section id="faq" className="bg-paper py-24 lg:py-32">
-      <div className="container-page">
-        <SectionHeading
-          eyebrow="Perguntas frequentes"
-          title="Dúvidas comuns de quem está organizando a gestão ocupacional."
-        />
+      <div className="container-page grid gap-10 lg:grid-cols-12 lg:gap-8">
+        <div className="lg:col-span-4">
+          <div className="lg:sticky lg:top-28">
+            <Reveal>
+              <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-700">
+                <PlusMark size={11} />
+                Perguntas frequentes
+              </span>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <h2 className="mt-4 font-display text-[clamp(1.75rem,3.2vw,2.4rem)] font-medium leading-[1.15] tracking-[-0.01em] text-petrol-900 text-balance">
+                Dúvidas comuns de quem está organizando a gestão ocupacional.
+              </h2>
+            </Reveal>
+          </div>
+        </div>
 
-        <Reveal delay={0.1} className="mt-14 lg:mt-16">
+        <Reveal delay={0.12} className="lg:col-span-7 lg:col-start-6">
           <Accordion.Root type="single" collapsible className="border-t border-line">
             {faqItems.map((item) => (
               <Accordion.Item
@@ -31,7 +41,7 @@ export function FAQ() {
                     <PlusMark
                       size={16}
                       strokeWidth={1.6}
-                      className="shrink-0 text-cyan-600 transition-transform duration-300 group-data-[state=open]:rotate-45"
+                      className="shrink-0 text-cyan-700 transition-transform duration-300 group-data-[state=open]:rotate-45"
                     />
                   </Accordion.Trigger>
                 </Accordion.Header>

@@ -177,3 +177,20 @@ body {
     animation: none;
   }
 }
+
+@keyframes marquee-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+.animate-marquee-left {
+  animation: marquee-left var(--duration, 45s) linear infinite;
+}
+
+.testimonial-marquee:hover .animate-marquee-left {
+  animation-play-state: paused;
+}

@@ -4,7 +4,7 @@ import { RevealImage } from "@/components/ui/RevealImage";
 import { aboutGallery } from "@/lib/content";
 
 export function About() {
-  const [big, vertical, small1, small2] = aboutGallery;
+  const [big, vertical, wide] = aboutGallery;
 
   return (
     <section id="sobre" className="bg-white py-24 lg:py-32">
@@ -44,24 +44,14 @@ export function About() {
               />
             </RevealImage>
           </div>
-          <div className="mt-4 flex gap-4">
-            <RevealImage delay={0.16} className="flex-1 aspect-[4/3] rounded-sm">
-              <Photo
-                src={small1.photo}
-                alt={small1.caption}
-                label={small1.caption}
-                className="h-full w-full"
-              />
-            </RevealImage>
-            <RevealImage delay={0.22} className="flex-1 aspect-[4/3] rounded-sm">
-              <Photo
-                src={small2.photo}
-                alt={small2.caption}
-                label={small2.caption}
-                className="h-full w-full"
-              />
-            </RevealImage>
-          </div>
+          <RevealImage delay={0.16} className="mt-4 aspect-[21/8] rounded-sm">
+            <Photo
+              src={wide.photo}
+              alt={wide.caption}
+              label={wide.caption}
+              className="h-full w-full"
+            />
+          </RevealImage>
         </div>
       </div>
     </section>

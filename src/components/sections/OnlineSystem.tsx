@@ -1,7 +1,13 @@
+"use client";
+
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { Fingerprint, Monitor, Send, type LucideIcon } from "lucide-react";
+import { useRef } from "react";
+import { Photo } from "@/components/ui/Photo";
 import { PlusMark } from "@/components/ui/PlusMark";
 import { Reveal } from "@/components/ui/Reveal";
 import { onlineSystemFeatures } from "@/lib/content";
+import { stockPhotos } from "@/lib/stock-photos";
 
 const icons: Record<string, LucideIcon> = {
   monitor: Monitor,
@@ -10,6 +16,15 @@ const icons: Record<string, LucideIcon> = {
 };
 
 export function OnlineSystem() {
+  const reduceMotion = useReducedMotion();
+  const frameRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: frameRef,
+    offset: ["start 0.9", "start 0.35"],
+  });
+  const rotateX = useTransform(scrollYProgress, [0, 1], [reduceMotion ? 0 : 16, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [reduceMotion ? 1 : 0.9, 1]);
+
   return (
     <section className="border-t border-white/10 bg-petrol-900 py-24 lg:py-32">
       <div className="container-page grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-12">
@@ -48,11 +63,20 @@ export function OnlineSystem() {
           </ul>
         </div>
 
-        <Reveal delay={0.2} className="lg:col-span-6 lg:col-start-7">
-          <div className="flex aspect-[4/3] items-center justify-center rounded-sm border border-dashed border-white/20 bg-white/[0.03]">
-            <span className="text-sm text-white/40">Screenshot do sistema RH+</span>
-          </div>
-        </Reveal>
+        <div className="lg:col-span-6 lg:col-start-7" style={{ perspective: 1400 }}>
+          <motion.div
+            ref={frameRef}
+            style={{ rotateX, scale, transformOrigin: "50% 100%" }}
+            className="aspect-[4/3] overflow-hidden rounded-sm"
+          >
+            <Photo
+              src={stockPhotos.typingLaptop}
+              alt="Consulta ao sistema de gestão ocupacional da RH+"
+              label="Portal RH+"
+              className="h-full w-full"
+            />
+          </motion.div>
+        </div>
       </div>
     </section>
   );
